@@ -12,6 +12,14 @@ MapWrapper.prototype.addMarker = function(coords){
     position: coords,
     map: this.googleMap
   });
+
+  var infoWindow = new google.maps.InfoWindow({
+  content: "Die schönste Stadt der Welt!"
+  })
+
+  marker.addListener('click', function() {
+  infoWindow.open(this.googleMap, marker);
+})
   this.markers.push(marker);
 }
 

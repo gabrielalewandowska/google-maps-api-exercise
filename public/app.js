@@ -1,15 +1,32 @@
 var initialize = function(){
   var mapDiv = document.getElementById("main-map");
-  var center = {lat: 51.10773, lng: 17.03533};
-  var center1 = {lat: 48.208174, lng: 16.373819};
-  var center2 = {lat: -37.810880, lng: 175.776461};
-  var mainMap = new MapWrapper(mapDiv, center, 1);
-  mainMap.addMarker(center);
-  mainMap.addMarker(center1);
-  mainMap.addMarker(center2);
+  var vienna = {lat: 48.208174, lng: 16.373819};
+  var chicago = {lat: 41.878114, lng: -87.629798};
+  var mainMap = new MapWrapper(mapDiv, vienna, 10);
+
+  var marker = mainMap.addMarker(vienna);
+
   mainMap.addClickEvent();
   var bounceButton = document.getElementById("button-bounce-markers");
+
   bounceButton.addEventListener("click", mainMap.bounceMarkers.bind(mainMap));
+
+ var chicagoButton = document.getElementById('button-take-to-chicago');
+ chicagoButton.addEventListener("click", function(){
+   mainMap = new MapWrapper(mapDiv, chicago, 10);
+   mainMap.addClickEvent();
+   bounceButton.addEventListener("click", mainMap.bounceMarkers.bind(mainMap));
+ });
+
+ var whereAmIButton = document.getElementById("button-where-am-i");
+ whereAmIButton.addEventListener("click", function(){
+   navigator.geolocation.getCurrentPosition(function(position) {
+     var pos = {lat: position.coords.latitude, lng: position.coords.longitude};
+     mainMap = new MapWrapper(mapDiv, pos, 10);
+     mainMap.addClickEvent();
+     bounceButton.addEventListener("click", mainMap.bounceMarkers.bind(mainMap));
+});
+ })
 
 }
 
